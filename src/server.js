@@ -1,14 +1,21 @@
 const http = require('http');
 const url = require('url');
-const responseHandler = require('./responses.js');
+const handler = require('./responses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const urlStruct = {
-
+const routes = {
+    '/': handler.getIndex,
+    '/cats': handler.getCats,
+    index: handler.getIndex
 };
 
 const onRequest = (request, response) => {
+    console.log(request.url);
+
+    const theProperRoute = routes[request.url] || routes.index;
+
+    theProperRoute(request, response);
 
 };
 

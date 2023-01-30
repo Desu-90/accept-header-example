@@ -9,8 +9,14 @@ const respond = (request, response, content, type) => {
 };
 
 const getIndex = (request, response) => {
+  console.log('getIndex called');
   respond(request, response, index, 'text/html');
 };
+
+const getCats = (request, response) => {
+  console.log('getCats called');
+  respond(request, response, 'dummy', 'text/html');
+}
 
 module.exports = {
   getCats,
