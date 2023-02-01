@@ -28,12 +28,12 @@
   <script>
     const sendFetchRequest = (url, acceptedType) => {
       const options = {
-          method: 'GET',
-          headers: {
-            'Accept': acceptedType,
-          }
+        method: 'GET',
+        headers: {
+          'Accept': acceptedType,
         }
-        return fetch(url, options);
+      }
+      return fetch(url, options);
     };
 
     const init = () => {
@@ -41,7 +41,25 @@
       const xmlButton = document.querySelector("#getCatsXML");
 
       jsonButton.addEventListener('click', () => {
-        sendFetchRequest('/cats', 'application/json');
+        sendFetchRequest('/cats', 'application/json')
+          .then(response => {
+            console.log('Response:');
+            console.log(response);
+            return response;
+          })
+          .then(response => response.text())
+          .then(responseText => {
+            return JSON.parse(responseText);
+          })
+          .then(cat => {
+            const contentElem = document.querySelector('#content');
+            contentElem.setHTML(`
+              <h1>Name:${cat.name}</h1>
+              <p>Age:${cat.age}</p>
+            `)
+          })
+          
+        console.log('request made')
       });
       xmlButton.addEventListener('click', () => {
         sendFetchRequest('/cats', 'text/xml');

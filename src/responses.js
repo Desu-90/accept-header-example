@@ -15,7 +15,30 @@ const getIndex = (request, response) => {
 
 const getCats = (request, response) => {
   console.log('getCats called');
-  respond(request, response, 'dummy', 'text/html');
+
+  const theCat = {
+    name: 'Nibbles',
+    age: 4,
+  };
+
+  const prefAccept = request.headers.accept.split(',')[0];
+
+  if (prefAccept === 'application/json') {
+    const dataString = JSON.stringify(theCat);
+    console.log("cat get json");
+    respond(request, response, dataString, 'application/json');
+  }
+  if (prefAccept === 'text/xml') {
+    const dataString = `
+      <response>
+        <name>${theCat.name}</name>
+        <age>${theCat.age}</age>
+      </response>
+    `.trim();
+    console.log("cat get xml");
+
+    respond(request, response, dataString, 'text/xml');
+  };
 }
 
 module.exports = {
